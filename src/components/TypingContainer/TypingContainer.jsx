@@ -1,18 +1,21 @@
 import './TypingContainer.css'
-import Letter from "../Letter/Letter"
+import Word from '../Word/Word'
 
 const TypingContainer = (props) => {
   const { typingSring, correctString } = props
-  const correctLetterArray = correctString.split('')
+  const typingWordsArray = typingSring.split(' ')
+  const correctWordsArray = correctString.split(' ')
   return (
     <div className="typingContainer">
       {
-        correctLetterArray.map((correctLetter, index) => (
-          <Letter
-            correctLetter={correctLetter}
-            isCorrectLetter={typingSring[index] === correctString[index]}
+        correctWordsArray.map((correctWord, index) => (
+          <Word
+            correctWord={correctWord}
+            typingWord={typingWordsArray[index] || ''}
+            isTypingWordIxist={Boolean(typingWordsArray[index])}
             key={index}
           />
+
         ))
       }
     </div>

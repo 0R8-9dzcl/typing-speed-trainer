@@ -2,13 +2,14 @@ import './Letter.css'
 import classNames from 'classnames';
 
 const Letter = (props) => {
-	const { correctLetter, isCorrectLetter } = props
+	const { correctLetter, typingLetter, isCorrectLetter, isTypingWordIxist, isTypingLetterIxist } = props
   const letterClass = classNames({
     letter: true,
-    valid: isCorrectLetter,
-    invalid: !isCorrectLetter
+    valid: isTypingWordIxist && isCorrectLetter,
+    invalid: isTypingWordIxist && isTypingLetterIxist && !isCorrectLetter
   })
-  return <p className={letterClass}>{correctLetter}</p>
+  const displayedLetter = !isCorrectLetter && isTypingLetterIxist ? typingLetter : correctLetter
+  return <p className={letterClass}>{displayedLetter}</p>
 }
 
 export default Letter
