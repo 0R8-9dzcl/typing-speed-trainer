@@ -1,0 +1,12 @@
+.letter {
+  color: black;
+  min-width: 5px;
+}
+
+.valid {
+  color: greenyellow;
+}
+
+.invalid {
+  color: red;
+}
