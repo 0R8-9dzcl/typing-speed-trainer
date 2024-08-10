@@ -3,7 +3,7 @@ import "./App.css";
 import TypingContainer from "../TypingContainer/TypingContainer";
 
 function App() {
-  const [typingSring, setTypingSring] = useState('мамыввв gfg')
+  const [typingSring, setTypingSring] = useState('мамыввв gfgа раму')
   const [correctString, setCorrectString] = useState('мама мыла раму мама мыла раму мама мыла раму мама мыла раму')
   return (
     <>

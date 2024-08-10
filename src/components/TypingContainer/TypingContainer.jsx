@@ -8,15 +8,18 @@ const TypingContainer = (props) => {
   return (
     <div className="typingContainer">
       {
-        correctWordsArray.map((correctWord, index) => (
-          <Word
-            correctWord={correctWord}
-            typingWord={typingWordsArray[index] || ''}
-            isTypingWordIxist={Boolean(typingWordsArray[index])}
-            key={index}
-          />
-
-        ))
+        correctWordsArray.map((correctWord, index) => {
+          const currentTypingWord = typingWordsArray[index] || ''
+          return (
+            <Word
+              correctWord={correctWord}
+              typingWord={currentTypingWord}
+              isTypingWordIxist={Boolean(currentTypingWord)}
+              isTypingWordLonger={currentTypingWord.length > correctWord.length}
+              key={index}
+            />
+          )
+      })
       }
     </div>
   )
