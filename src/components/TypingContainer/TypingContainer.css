@@ -1,4 +1,7 @@
 .typingContainer {
+
+}
+.words {
   display: flex;
   gap: 5px;
 }
