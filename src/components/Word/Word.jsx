@@ -5,7 +5,6 @@ const Word = (props) => {
 	const { typingWord , correctWord, isTypingWordIxist, isTypingWordLonger } = props
   const correctLetterArray = correctWord.split('')
   const correctWordLength = correctWord.length
-  console.log(correctWordLength, typingWord.slice(correctWordLength))
   return (
     <div className="word">
       {
