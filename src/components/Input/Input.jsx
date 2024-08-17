@@ -1,7 +1,7 @@
 import './Input.css'
 
 const Input = (props) => {
-  const { className, onChange, inputRef } = props
+  const { className, onChange, inputRef, disabled } = props
   return (
     <input
       type="text"
@@ -11,6 +11,7 @@ const Input = (props) => {
       autoCorrect="off"
       onChange={onChange}
       ref={inputRef}
+      disabled={disabled}
     />
   )
 }
