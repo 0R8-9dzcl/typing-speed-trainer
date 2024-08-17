@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 const useTrainer = (correctString, durationInSeconds = 30) => {
+  const [timeLeft, setTimeLeft] = useState(durationInSeconds)
   const [inputValue, setInputValue] = useState('')
   const inputRef = useRef()
-  const [timeElapsed, setTimeElapsed] = useState(0)
   const [wpm, setWpm] = useState(0)
   const [isRunning, setIsRunning] = useState(false)
   const [isCompleted, setIsCompleted] = useState(false)
@@ -24,32 +24,15 @@ const useTrainer = (correctString, durationInSeconds = 30) => {
   }
 
   const focusInput = useCallback(() => {
-    inputRef.current.focus();
-  }, []);
+    inputRef.current.focus()
+  }, [])
 
   const clearInput = useCallback(() => {
-    inputRef.current.value = '';
-    setInputValue('');
-  }, []);
-
-  const completeTrainer = () => {
-    stopTimer()
-    calculateWpm()
-    setIsCompleted(true)
-  }
+    inputRef.current.value = ''
+    setInputValue('')
+  }, [])
 
   // таймер
-  const startTimer = () => {
-    timerRef.current = setInterval(() => {
-      setTimeElapsed((prevTime) => {
-        if (prevTime + 1 >= durationInSeconds) {
-          completeTrainer()
-        }
-        return prevTime + 1
-      })
-    }, 1000)
-  }
-
   const stopTimer = useCallback(() => {
     clearInterval(timerRef.current)
     setIsRunning(false)
@@ -57,22 +40,40 @@ const useTrainer = (correctString, durationInSeconds = 30) => {
 
   // подсчет WPM
   const handleFocus = () => {
-    setIsInputFocused(true);
+    setIsInputFocused(true)
   }
   const handleBlur = () => {
-    setIsInputFocused(false);
+    setIsInputFocused(false)
   }
 
   const calculateWpm = useCallback(() => {
-    const wordsTyped = inputValue.trim().split(' ').length;
-    const minutesElapsed = timeElapsed / 60;
-    setWpm(Math.round(wordsTyped / minutesElapsed));
-  }, [inputValue, timeElapsed]);
+    const wordsTyped = inputValue.trim().split(' ').length
+    const minutesElapsed = (durationInSeconds - timeLeft) / 60
+    setWpm(Math.round(wordsTyped / minutesElapsed))
+  }, [inputValue, timeLeft, durationInSeconds])
+
+  const completeTrainer = useCallback(() => {
+    stopTimer()
+    calculateWpm()
+    setIsCompleted(true)
+  }, [calculateWpm, stopTimer])
+
+  const startTimer = useCallback(() => {
+    timerRef.current = setInterval(() => {
+      setTimeLeft((prevTime) => {
+        if (prevTime <= 1) {
+          completeTrainer()
+          return 0
+        }
+        return prevTime - 1
+      })
+    }, 1000)
+  }, [completeTrainer])
 
   useEffect(() => {
     if (isCompleted) {
       calculateWpm()
-      handleBlur();
+      handleBlur()
     }
   }, [isCompleted, calculateWpm])
 
@@ -83,23 +84,23 @@ const useTrainer = (correctString, durationInSeconds = 30) => {
   }, [focusInput, isInputFocused])
 
   const resetTrainer = useCallback(() => {
-    stopTimer();
-    clearInput();
-    setTimeElapsed(0);
-    setWpm(0);
-    setIsCompleted(false);
+    stopTimer()
+    clearInput()
+    setTimeLeft(durationInSeconds)
+    setWpm(0)
+    setIsCompleted(false)
     handleFocus()
-  }, [stopTimer, clearInput]);
+  }, [stopTimer, clearInput, durationInSeconds])
 
   return {
     inputRef,
     inputValue,
     handleChange,
-    timeElapsed,
+    timeLeft,
     wpm,
     resetTrainer,
     isCompleted,
-    isInputFocused
+    isInputFocused,
   }
 }
 
