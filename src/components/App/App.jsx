@@ -18,7 +18,6 @@ function App() {
   const [correctString, setCorrectString] = useState('')
   useEffect(() => {
     const randomNumber = Math.floor(Math.random() * testStrings.length)
-    console.log(randomNumber)
     setCorrectString(testStrings[randomNumber])
   }, [])
   return (
