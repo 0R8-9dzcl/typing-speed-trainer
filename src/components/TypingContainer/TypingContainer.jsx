@@ -1,34 +1,82 @@
+import { useState, useCallback, useEffect } from 'react'
 import './TypingContainer.css'
 import Word from '../Word/Word'
 import Input from '../Input/Input'
-import useTrainer from '../../hooks/useTrainer'
+import useTyping from '../../hooks/useTyping'
+import useTimer from '../../hooks/useTimer'
+import calculateWpm from '../../utils/calculateWpm'
 
-const TypingContainer = (props) => {
-  const { correctString } = props
+const TypingContainer = ({ correctString }) => {
+  const timerDuration = 30
+  const [wpm, setWpm] = useState(0)
+
+  const {
+    timeLeft,
+    startTimer,
+    stopTimer,
+    resetTimer,
+    isRunning,
+  } = useTimer(timerDuration)
 
   const {
     inputRef,
     inputValue: typingSring,
     handleChange: onType,
-    timeLeft,
-    wpm,
-    resetTrainer,
     isCompleted,
-    isInputFocused
-  } = useTrainer(correctString);
+    clearInput,
+    completeTyping,
+  } = useTyping()
+
+  const resetTrainer = () => {
+    clearInput()
+    stopTimer()
+    resetTimer()
+  }
+
+  const completeTrainer = useCallback(() => {
+    stopTimer()
+    setWpm(calculateWpm({
+      inputValue: typingSring,
+      elapsedTime: timerDuration - timeLeft,
+    }))
+    completeTyping()
+  }, [completeTyping, stopTimer, timeLeft, typingSring])
+
+  useEffect(() => {
+    if (timeLeft === 0) {
+      completeTrainer()
+    }
+  }, [timeLeft, completeTrainer])
+
+  const handleChangeInput = (e) => {
+    if (!isRunning) {
+      startTimer()
+    }
+
+    onType(e)
+  }
+
+  useEffect(() => {
+    if (typingSring.trim() === correctString.trim()) {
+      completeTrainer()
+    }
+  }, [completeTrainer, correctString, typingSring])
 
   const typingWordsArray = typingSring.split(' ')
   const correctWordsArray = correctString.split(' ')
+
   return (
     <div className="typingContainer">
-    {
-      !isCompleted && <button type="button" onClick={resetTrainer}>Reset</button>
-    }
-    <p className='timer'>Time remaining: {timeLeft} seconds</p>
+      {
+        !isCompleted && (
+          <button type="button" onClick={resetTrainer}>Reset</button>
+        )
+      }
+      <p className='timer'>Time remaining: {timeLeft} seconds</p>
       <Input
-        inputRef={ inputRef }
+        inputRef={inputRef}
         className="input"
-        onChange={onType}
+        onChange={handleChangeInput}
         disabled={isCompleted}
       />
       {
@@ -48,9 +96,8 @@ const TypingContainer = (props) => {
                 )
               })
             }
-      </div>
-        ) :
-        (
+          </div>
+        ) : (
           <div className="results">
             <p>WPM: {wpm}</p>
             <button type="button" onClick={resetTrainer}>Reset</button>
