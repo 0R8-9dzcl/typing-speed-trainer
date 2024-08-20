@@ -6,9 +6,18 @@ const useTyping = () => {
   const [isInputFocused, setIsInputFocused] = useState(false)
   const [isCompleted, setIsCompleted] = useState(false)
 
-  const handleChange = useCallback((e) => {
-    setInputValue(e.target.value)
-  }, [])
+  const handleChange = useCallback((event) => {
+    const  newInputValue = event.target.value
+    const lastValueLetter = inputValue.slice(-1)
+    const isLastLettersEqual = newInputValue.slice(-1) === lastValueLetter
+    const isLastLetterSpace = lastValueLetter === ' '
+    const isDoubleSpace = isLastLettersEqual && isLastLetterSpace
+    if (!isDoubleSpace) {
+      setInputValue(newInputValue)
+    } else {
+      inputRef.current.value = inputValue
+    }
+  }, [inputValue])
 
   const resetInput = () => {
     setInputValue('')
@@ -30,7 +39,9 @@ const useTyping = () => {
     }
   }, [inputRef])
 
-  const completeTyping = useCallback(() => setIsCompleted(true), [])
+  const completeTyping = useCallback(() => {
+    setIsCompleted(true)
+  }, [])
 
   return {
     inputRef,
