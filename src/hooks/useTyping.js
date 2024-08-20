@@ -41,6 +41,7 @@ const useTyping = () => {
 
   const completeTyping = useCallback(() => {
     setIsCompleted(true)
+    handleBlur()
   }, [])
 
   return {

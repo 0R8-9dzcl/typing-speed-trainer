@@ -2,7 +2,13 @@ import { useEffect } from 'react'
 import './Input.css'
 
 const Input = (props) => {
-  const { className, onChange, inputRef, disabled: isInputDisabled } = props
+  const {
+    className,
+    onChange,
+    inputRef,
+    disabled: isInputDisabled,
+    onBlur,
+  } = props
 
   const handlePreventDefault = (event) => {
     event.preventDefault()
@@ -45,6 +51,7 @@ const Input = (props) => {
       disabled={isInputDisabled}
       onPaste={handlePreventDefault}
       onKeyDown={handleKeyDown}
+      onBlur={onBlur}
     />
   )
 }
