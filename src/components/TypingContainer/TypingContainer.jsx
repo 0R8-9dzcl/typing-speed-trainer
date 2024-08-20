@@ -22,6 +22,7 @@ const TypingContainer = ({ correctString }) => {
     inputRef,
     inputValue: typingSring,
     handleChange: onType,
+    focusInput,
     isCompleted,
     clearInput,
     completeTyping,
@@ -73,6 +74,7 @@ const TypingContainer = ({ correctString }) => {
         )
       }
       <p className='timer'>Time remaining: {timeLeft} seconds</p>
+      <button type="button" className="focus" onClick={focusInput}>Focus</button>
       <Input
         inputRef={inputRef}
         className="input"
