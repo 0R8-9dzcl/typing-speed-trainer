@@ -58,7 +58,9 @@ const TypingContainer = ({ correctString }) => {
   }
 
   useEffect(() => {
-    if (typingSring.trim() === correctString.trim()) {
+    const isEqualStrings = typingSring.trim() === correctString.trim()
+    const isEmptyCorrectString = correctString.length < 1
+    if (isEqualStrings && !isEmptyCorrectString) {
       completeTrainer()
     }
   }, [completeTrainer, correctString, typingSring])
