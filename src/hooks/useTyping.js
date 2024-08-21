@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 
 const useTyping = () => {
   const inputRef = useRef()
@@ -35,7 +35,6 @@ const useTyping = () => {
   const focusInput = useCallback(() => {
     if (inputRef.current) {
       inputRef.current.focus()
-      handleFocus()
     }
   }, [inputRef])
 
@@ -43,6 +42,13 @@ const useTyping = () => {
     setIsCompleted(true)
     handleBlur()
   }, [])
+
+  useEffect(() => {
+    if (!isCompleted) {
+      focusInput();
+    }
+  }, [focusInput, isCompleted]);
+
 
   return {
     inputRef,
@@ -54,6 +60,7 @@ const useTyping = () => {
     isCompleted,
     completeTyping,
     handleBlur,
+    handleFocus,
   }
 }
 

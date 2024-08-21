@@ -8,6 +8,7 @@ const Input = (props) => {
     inputRef,
     disabled: isInputDisabled,
     onBlur,
+    onFocus,
   } = props
 
   const handlePreventDefault = (event) => {
@@ -52,6 +53,7 @@ const Input = (props) => {
       onPaste={handlePreventDefault}
       onKeyDown={handleKeyDown}
       onBlur={onBlur}
+      onFocus={onFocus}
     />
   )
 }

@@ -28,6 +28,7 @@ const TypingContainer = ({ correctString }) => {
     clearInput,
     completeTyping,
     handleBlur,
+    handleFocus
   } = useTyping()
 
   const resetTrainer = () => {
@@ -91,6 +92,7 @@ const TypingContainer = ({ correctString }) => {
         onChange={handleChangeInput}
         disabled={isCompleted}
         onBlur={handleBlur}
+        onFocus={handleFocus}
       />
       {
         !isCompleted ? (
