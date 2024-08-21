@@ -31,6 +31,9 @@ const TypingContainer = ({ correctString }) => {
     handleFocus
   } = useTyping()
 
+  const typingWordsArray = typingSring.split(' ')
+  const correctWordsArray = correctString.split(' ')
+
   const resetTrainer = () => {
     clearInput()
     stopTimer()
@@ -61,17 +64,17 @@ const TypingContainer = ({ correctString }) => {
   }
 
   useEffect(() => {
-    const isEqualStrings = typingSring.trim() === correctString.trim()
     const isEmptyCorrectString = correctString.length < 1
-    if (isEqualStrings && !isEmptyCorrectString) {
+
+    const isTypingLastWord = correctWordsArray.length === typingWordsArray.length
+    const lastCorrecttWordsLength = correctWordsArray.at(-1).length
+    const lastTypingWordsLength = correctWordsArray.at(-1).length
+    const isLastWordsLengthEqual = lastCorrecttWordsLength === lastTypingWordsLength
+
+    if (!isEmptyCorrectString && isTypingLastWord && isLastWordsLengthEqual) {
       completeTrainer()
     }
-  }, [completeTrainer, correctString, typingSring])
-
-  const typingWordsArray = typingSring.split(' ')
-  const correctWordsArray = correctString.split(' ')
-
-  console.log(isInputFocused)
+  }, [completeTrainer, correctString, correctWordsArray, typingSring, typingWordsArray, typingWordsArray.length])
 
   return (
     <div className="typingContainer">
