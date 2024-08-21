@@ -7,14 +7,20 @@ const useTyping = () => {
   const [isCompleted, setIsCompleted] = useState(false)
 
   const handleChange = useCallback((event) => {
-    const  newInputValue = event.target.value
+    const newInputValue = event.target.value
+
+    const isValueOneSpace = newInputValue === ' '
+
     const lastValueLetter = inputValue.slice(-1)
     const isLastLettersEqual = newInputValue.slice(-1) === lastValueLetter
     const isLastLetterSpace = lastValueLetter === ' '
     const isDoubleSpace = isLastLettersEqual && isLastLetterSpace
-    if (!isDoubleSpace) {
+
+    if (isValueOneSpace) {
+      inputRef.current.value = ''
+    } else if (!isDoubleSpace) {
       setInputValue(newInputValue)
-    } else {
+    }else {
       inputRef.current.value = inputValue
     }
   }, [inputValue])
