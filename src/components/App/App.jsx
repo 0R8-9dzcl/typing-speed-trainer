@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import "./App.css";
-import TypingContainer from "../TypingContainer/TypingContainer";
+import { useEffect, useState } from 'react'
+import './App.css'
+import TypingContainer from '../TypingContainer/TypingContainer'
 
 const testStrings = [
   'в четверг четвертого числа в четыре с четвертью часа четыре черненьких чертенка чертили черными чернилами чертеж чрезвычайно чисто',
@@ -22,16 +22,14 @@ function App() {
   }, [])
   return (
     <>
-    <header className="header">
-      <h1 className="header__title">Typing Speed Trainer</h1>
-    </header>
-    <main>
-      <TypingContainer
-        correctString={correctString}
-      />
-    </main>
+      <header className="header">
+        <h1 className="header__title">Typing Speed Trainer</h1>
+      </header>
+      <main>
+        <TypingContainer correctString={correctString} />
+      </main>
     </>
-  );
+  )
 }
 
-export default App;
+export default App

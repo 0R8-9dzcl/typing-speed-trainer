@@ -10,13 +10,8 @@ const TypingContainer = ({ correctString }) => {
   const timerDuration = 30
   const [wpm, setWpm] = useState(0)
 
-  const {
-    timeLeft,
-    startTimer,
-    stopTimer,
-    resetTimer,
-    isRunning,
-  } = useTimer(timerDuration)
+  const { timeLeft, startTimer, stopTimer, resetTimer, isRunning } =
+    useTimer(timerDuration)
 
   const {
     inputRef,
@@ -28,7 +23,7 @@ const TypingContainer = ({ correctString }) => {
     clearInput,
     completeTyping,
     handleBlur,
-    handleFocus
+    handleFocus,
   } = useTyping()
 
   const typingWordsArray = typingSring.split(' ')
@@ -42,10 +37,12 @@ const TypingContainer = ({ correctString }) => {
 
   const completeTrainer = useCallback(() => {
     stopTimer()
-    setWpm(calculateWpm({
-      inputValue: typingSring,
-      elapsedTime: timerDuration - timeLeft,
-    }))
+    setWpm(
+      calculateWpm({
+        inputValue: typingSring,
+        elapsedTime: timerDuration - timeLeft,
+      }),
+    )
     completeTyping()
   }, [completeTyping, stopTimer, timeLeft, typingSring])
 
@@ -66,29 +63,38 @@ const TypingContainer = ({ correctString }) => {
   useEffect(() => {
     const isEmptyCorrectString = correctString.length < 1
 
-    const isTypingLastWord = correctWordsArray.length === typingWordsArray.length
+    const isTypingLastWord =
+      correctWordsArray.length === typingWordsArray.length
     const lastCorrecttWordsLength = correctWordsArray.at(-1).length
     const lastTypingWordsLength = correctWordsArray.at(-1).length
-    const isLastWordsLengthEqual = lastCorrecttWordsLength === lastTypingWordsLength
+    const isLastWordsLengthEqual =
+      lastCorrecttWordsLength === lastTypingWordsLength
 
     if (!isEmptyCorrectString && isTypingLastWord && isLastWordsLengthEqual) {
       completeTrainer()
     }
-  }, [completeTrainer, correctString, correctWordsArray, typingSring, typingWordsArray, typingWordsArray.length])
+  }, [
+    completeTrainer,
+    correctString,
+    correctWordsArray,
+    typingSring,
+    typingWordsArray,
+    typingWordsArray.length,
+  ])
 
   return (
     <div className="typingContainer">
-      {
-        !isCompleted && (
-          <button type="button" onClick={resetTrainer}>Reset</button>
-        )
-      }
-      <p className='timer'>Time remaining: {timeLeft} seconds</p>
-      {
-        !isInputFocused && !isCompleted && (
-          <button type="button" className="focus" onClick={focusInput}>Focus</button>
-        )
-      }
+      {!isCompleted && (
+        <button type="button" onClick={resetTrainer}>
+          Reset
+        </button>
+      )}
+      <p className="timer">Time remaining: {timeLeft} seconds</p>
+      {!isInputFocused && !isCompleted && (
+        <button type="button" className="focus" onClick={focusInput}>
+          Focus
+        </button>
+      )}
       <Input
         inputRef={inputRef}
         className="input"
@@ -97,31 +103,31 @@ const TypingContainer = ({ correctString }) => {
         onBlur={handleBlur}
         onFocus={handleFocus}
       />
-      {
-        !isCompleted ? (
-          <div className="words">
-            {
-              correctWordsArray.map((correctWord, index) => {
-                const currentTypingWord = typingWordsArray[index] || ''
-                return (
-                  <Word
-                    correctWord={correctWord}
-                    typingWord={currentTypingWord}
-                    isTypingWordIxist={Boolean(currentTypingWord)}
-                    isTypingWordLonger={currentTypingWord.length > correctWord.length}
-                    key={index}
-                  />
-                )
-              })
-            }
-          </div>
-        ) : (
-          <div className="results">
-            <p>WPM: {wpm}</p>
-            <button type="button" onClick={resetTrainer}>Reset</button>
-          </div>
-        )
-      }
+      {!isCompleted ? (
+        <div className="words">
+          {correctWordsArray.map((correctWord, index) => {
+            const currentTypingWord = typingWordsArray[index] || ''
+            return (
+              <Word
+                correctWord={correctWord}
+                typingWord={currentTypingWord}
+                isTypingWordIxist={Boolean(currentTypingWord)}
+                isTypingWordLonger={
+                  currentTypingWord.length > correctWord.length
+                }
+                key={index}
+              />
+            )
+          })}
+        </div>
+      ) : (
+        <div className="results">
+          <p>WPM: {wpm}</p>
+          <button type="button" onClick={resetTrainer}>
+            Reset
+          </button>
+        </div>
+      )}
     </div>
   )
 }

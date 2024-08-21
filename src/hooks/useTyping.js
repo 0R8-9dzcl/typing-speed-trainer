@@ -6,24 +6,27 @@ const useTyping = () => {
   const [isInputFocused, setIsInputFocused] = useState(false)
   const [isCompleted, setIsCompleted] = useState(false)
 
-  const handleChange = useCallback((event) => {
-    const newInputValue = event.target.value
+  const handleChange = useCallback(
+    (event) => {
+      const newInputValue = event.target.value
 
-    const isValueOneSpace = newInputValue === ' '
+      const isValueOneSpace = newInputValue === ' '
 
-    const lastValueLetter = inputValue.slice(-1)
-    const isLastLettersEqual = newInputValue.slice(-1) === lastValueLetter
-    const isLastLetterSpace = lastValueLetter === ' '
-    const isDoubleSpace = isLastLettersEqual && isLastLetterSpace
+      const lastValueLetter = inputValue.slice(-1)
+      const isLastLettersEqual = newInputValue.slice(-1) === lastValueLetter
+      const isLastLetterSpace = lastValueLetter === ' '
+      const isDoubleSpace = isLastLettersEqual && isLastLetterSpace
 
-    if (isValueOneSpace) {
-      inputRef.current.value = ''
-    } else if (!isDoubleSpace) {
-      setInputValue(newInputValue)
-    }else {
-      inputRef.current.value = inputValue
-    }
-  }, [inputValue])
+      if (isValueOneSpace) {
+        inputRef.current.value = ''
+      } else if (!isDoubleSpace) {
+        setInputValue(newInputValue)
+      } else {
+        inputRef.current.value = inputValue
+      }
+    },
+    [inputValue],
+  )
 
   const resetInput = () => {
     setInputValue('')
@@ -51,10 +54,9 @@ const useTyping = () => {
 
   useEffect(() => {
     if (!isCompleted) {
-      focusInput();
+      focusInput()
     }
-  }, [focusInput, isCompleted]);
-
+  }, [focusInput, isCompleted])
 
   return {
     inputRef,
