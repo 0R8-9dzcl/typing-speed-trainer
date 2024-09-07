@@ -29,14 +29,19 @@ const TypingContainer = ({ correctString }) => {
 
   const typingWordsArray = typingSring.split(' ')
   const correctWordsArray = correctString.split(' ')
-  const isShowFocus = !isInputFocused && !isCompleted
+  const isNotShowFocus = !isInputFocused && !isCompleted
   const showButtonClass = classNames({
     focus: true,
-    visible: !isShowFocus,
+    hidden: isCompleted || !isNotShowFocus,
   })
   const wordsClass = classNames({
     words: true,
-    blured: isShowFocus,
+    blured: isNotShowFocus,
+    hidden: isCompleted,
+  })
+  const resultClass = classNames({
+    result: true,
+    hidden: !isCompleted,
   })
 
   const resetTrainer = () => {
@@ -100,49 +105,42 @@ const TypingContainer = ({ correctString }) => {
         </button>
       )}
       <p className="timer">Time remaining: {timeLeft} seconds</p>
-
-      {!isCompleted ? (
-        <div className="wrap">
-          <Input
-            inputRef={inputRef}
-            className="input"
-            onChange={handleChangeInput}
-            disabled={isCompleted}
-            onBlur={handleBlur}
-            onFocus={handleFocus}
-          />
-          <div className={wordsClass}>
-            {correctWordsArray.map((correctWord, index) => {
-              const currentTypingWord = typingWordsArray[index] || ''
-              return (
-                <Word
-                  correctWord={correctWord}
-                  typingWord={currentTypingWord}
-                  isTypingWordIxist={Boolean(currentTypingWord)}
-                  isTypingWordLonger={
-                    currentTypingWord.length > correctWord.length
-                  }
-                  key={index}
-                />
-              )
-            })}
-          </div>
-          <button
-            type="button"
-            className={showButtonClass}
-            onClick={focusInput}
-          >
-            Click for focus
-          </button>
+      <div className="wrap">
+        <Input
+          inputRef={inputRef}
+          className="input"
+          onChange={handleChangeInput}
+          disabled={isCompleted}
+          onBlur={handleBlur}
+          onFocus={handleFocus}
+        />
+        <div className={wordsClass}>
+          <div className="caret"></div>
+          {correctWordsArray.map((correctWord, index) => {
+            const currentTypingWord = typingWordsArray[index] || ''
+            return (
+              <Word
+                correctWord={correctWord}
+                typingWord={currentTypingWord}
+                isTypingWordIxist={Boolean(currentTypingWord)}
+                isTypingWordLonger={
+                  currentTypingWord.length > correctWord.length
+                }
+                key={index}
+              />
+            )
+          })}
         </div>
-      ) : (
-        <div className="results">
+        <button type="button" className={showButtonClass} onClick={focusInput}>
+          Click for focus
+        </button>
+        <div className={resultClass}>
           <p>WPM: {wpm}</p>
           <button type="button" onClick={resetTrainer}>
             Reset
           </button>
         </div>
-      )}
+      </div>
     </div>
   )
 }

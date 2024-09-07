@@ -14,15 +14,11 @@
   transition: visibility, opacity .3s ease-in-out;
 }
 
-.visible {
-  opacity: 0;
-  visibility: hidden;
-}
 
 .words {
   display: flex;
   flex-wrap: wrap;
-  gap: 2px 10px;
+  gap: 2px 8px;
   font-family: 'Ubuntu Mono Regular';
   font-size: 20px;
   filter: none;
@@ -31,4 +27,21 @@
 
 .blured {
   filter: blur(4px);
+}
+
+.result {
+  position: absolute;
+}
+
+.caret {
+  position: absolute;
+  height: 23px;
+  background-color: #e2b714;
+  width: 2px;
+  border-radius: .5rem;
+}
+
+.hidden {
+  opacity: 0;
+  visibility: hidden;
 }
