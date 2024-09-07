@@ -5,6 +5,7 @@ import Input from '../Input/Input'
 import useTyping from '../../hooks/useTyping'
 import useTimer from '../../hooks/useTimer'
 import calculateWpm from '../../utils/calculateWpm'
+import classNames from 'classnames'
 
 const TypingContainer = ({ correctString }) => {
   const timerDuration = 30
@@ -28,6 +29,15 @@ const TypingContainer = ({ correctString }) => {
 
   const typingWordsArray = typingSring.split(' ')
   const correctWordsArray = correctString.split(' ')
+  const isShowFocus = !isInputFocused && !isCompleted
+  const showButtonClass = classNames({
+    focus: true,
+    visible: !isShowFocus,
+  })
+  const wordsClass = classNames({
+    words: true,
+    blured: isShowFocus,
+  })
 
   const resetTrainer = () => {
     clearInput()
@@ -90,35 +100,40 @@ const TypingContainer = ({ correctString }) => {
         </button>
       )}
       <p className="timer">Time remaining: {timeLeft} seconds</p>
-      {!isInputFocused && !isCompleted && (
-        <button type="button" className="focus" onClick={focusInput}>
-          Focus
-        </button>
-      )}
-      <Input
-        inputRef={inputRef}
-        className="input"
-        onChange={handleChangeInput}
-        disabled={isCompleted}
-        onBlur={handleBlur}
-        onFocus={handleFocus}
-      />
+
       {!isCompleted ? (
-        <div className="words">
-          {correctWordsArray.map((correctWord, index) => {
-            const currentTypingWord = typingWordsArray[index] || ''
-            return (
-              <Word
-                correctWord={correctWord}
-                typingWord={currentTypingWord}
-                isTypingWordIxist={Boolean(currentTypingWord)}
-                isTypingWordLonger={
-                  currentTypingWord.length > correctWord.length
-                }
-                key={index}
-              />
-            )
-          })}
+        <div className="wrap">
+          <Input
+            inputRef={inputRef}
+            className="input"
+            onChange={handleChangeInput}
+            disabled={isCompleted}
+            onBlur={handleBlur}
+            onFocus={handleFocus}
+          />
+          <div className={wordsClass}>
+            {correctWordsArray.map((correctWord, index) => {
+              const currentTypingWord = typingWordsArray[index] || ''
+              return (
+                <Word
+                  correctWord={correctWord}
+                  typingWord={currentTypingWord}
+                  isTypingWordIxist={Boolean(currentTypingWord)}
+                  isTypingWordLonger={
+                    currentTypingWord.length > correctWord.length
+                  }
+                  key={index}
+                />
+              )
+            })}
+          </div>
+          <button
+            type="button"
+            className={showButtonClass}
+            onClick={focusInput}
+          >
+            Click for focus
+          </button>
         </div>
       ) : (
         <div className="results">

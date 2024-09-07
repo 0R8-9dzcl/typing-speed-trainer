@@ -1,6 +1,7 @@
 .letter {
   color: black;
   min-width: 5px;
+  margin: 0;
 }
 
 .valid {

@@ -20,6 +20,7 @@ function App() {
     const randomNumber = Math.floor(Math.random() * testStrings.length)
     setCorrectString(testStrings[randomNumber])
   }, [])
+
   return (
     <>
       <header className="header">
