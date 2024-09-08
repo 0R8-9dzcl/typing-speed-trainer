@@ -1,4 +1,7 @@
-.typingContainer {}
+.typingContainer {
+  max-width: 850px;
+  margin: 70px auto 0;
+}
 
 .wrap {
   display: flex;
@@ -16,6 +19,7 @@
 
 
 .words {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   gap: 2px 8px;
@@ -31,14 +35,6 @@
 
 .result {
   position: absolute;
-}
-
-.caret {
-  position: absolute;
-  height: 23px;
-  background-color: #e2b714;
-  width: 2px;
-  border-radius: .5rem;
 }
 
 .hidden {

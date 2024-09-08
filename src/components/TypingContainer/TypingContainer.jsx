@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import './TypingContainer.css'
 import Word from '../Word/Word'
 import Input from '../Input/Input'
@@ -6,6 +6,8 @@ import useTyping from '../../hooks/useTyping'
 import useTimer from '../../hooks/useTimer'
 import calculateWpm from '../../utils/calculateWpm'
 import classNames from 'classnames'
+import useCaret from '../../hooks/useCaret'
+import Caret from '../Caret/Caret'
 
 const TypingContainer = ({ correctString }) => {
   const timerDuration = 30
@@ -44,10 +46,15 @@ const TypingContainer = ({ correctString }) => {
     hidden: !isCompleted,
   })
 
+  const wordsRef = useRef(null)
+  const { caretPosition, resetPosition } = useCaret(wordsRef, typingSring)
+
   const resetTrainer = () => {
     clearInput()
     stopTimer()
     resetTimer()
+    resetPosition()
+    focusInput()
   }
 
   const completeTrainer = useCallback(() => {
@@ -112,8 +119,8 @@ const TypingContainer = ({ correctString }) => {
           onBlur={handleBlur}
           onFocus={handleFocus}
         />
-        <div className={wordsClass}>
-          <div className="caret"></div>
+        <div ref={wordsRef} className={wordsClass}>
+          <Caret caretPosition={caretPosition} isHidden={!isInputFocused} />
           {correctWordsArray.map((correctWord, index) => {
             const currentTypingWord = typingWordsArray[index] || ''
             return (
