@@ -78,12 +78,10 @@ const TypingContainer = ({ correctString }) => {
   useEffect(() => {
     const isEmptyCorrectString = correctString.length < 1
 
-    const isTypingLastWord =
-      correctWordsArray.length === typingWordsArray.length
+    const isTypingLastWord = correctWordsArray.length === typingWordsArray.length
     const lastCorrecttWordsLength = correctWordsArray.at(-1).length
-    const lastTypingWordsLength = correctWordsArray.at(-1).length
-    const isLastWordsLengthEqual =
-      lastCorrecttWordsLength === lastTypingWordsLength
+    const lastTypingWordsLength = typingWordsArray.at(-1).length
+    const isLastWordsLengthEqual = lastCorrecttWordsLength === lastTypingWordsLength
 
     if (!isEmptyCorrectString && isTypingLastWord && isLastWordsLengthEqual) {
       completeTrainer()
