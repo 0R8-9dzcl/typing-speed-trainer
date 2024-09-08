@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/typing-speed-trainer/static/css/main.58860932.css",
-    "main.js": "/typing-speed-trainer/static/js/main.69bc5592.js",
+    "main.js": "/typing-speed-trainer/static/js/main.1b6c8216.js",
     "static/media/Inter-Medium.woff": "/typing-speed-trainer/static/media/Inter-Medium.eec0ea57721daa33c7a2.woff",
     "static/media/Inter-Black.woff": "/typing-speed-trainer/static/media/Inter-Black.7bb6234314ccc72c942a.woff",
     "static/media/Inter-Regular.woff": "/typing-speed-trainer/static/media/Inter-Regular.fc49d131f795b4d48f26.woff",
@@ -14,10 +14,10 @@
     "static/media/opengosttypeattregular.woff2": "/typing-speed-trainer/static/media/opengosttypeattregular.89d91dd032c29fe8172a.woff2",
     "index.html": "/typing-speed-trainer/index.html",
     "main.58860932.css.map": "/typing-speed-trainer/static/css/main.58860932.css.map",
-    "main.69bc5592.js.map": "/typing-speed-trainer/static/js/main.69bc5592.js.map"
+    "main.1b6c8216.js.map": "/typing-speed-trainer/static/js/main.1b6c8216.js.map"
   },
   "entrypoints": [
     "static/css/main.58860932.css",
-    "static/js/main.69bc5592.js"
+    "static/js/main.1b6c8216.js"
   ]
 }
