@@ -1,3 +1,9 @@
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
 .typingContainer {
   max-width: 850px;
   margin: 70px auto 0;
@@ -35,6 +41,29 @@
 
 .result {
   position: absolute;
+}
+
+.word {
+  display: flex;
+  margin: 0 2px;
+}
+
+.input {
+  font-size: 16px;
+  opacity: 0;
+  cursor: default;
+  position: absolute;
+}
+
+.caret {
+  position: absolute;
+  height: 23px;
+  background-color: #e2b714;
+  width: 2px;
+  border-radius: .5rem;
+  animation: blink 1.5s steps(1) infinite;
+  transition: top, left .1s ease-in-out;
+  opacity: 1;
 }
 
 .hidden {

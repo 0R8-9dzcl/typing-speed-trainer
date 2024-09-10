@@ -1,13 +1,12 @@
-import './Word.css'
 import Letter from '../Letter/Letter'
 
 const Word = (props) => {
-  const { typingWord, correctWord, isTypingWordIxist, isTypingWordLonger } =
+  const { typingWord, correctWord, isTypingWordIxist, isTypingWordLonger, className } =
     props
   const correctLetterArray = correctWord.split('')
   const correctWordLength = correctWord.length
   return (
-    <div className="word">
+    <div className={className}>
       {correctLetterArray.map((correctLetter, index) => (
         <Letter
           correctLetter={correctLetter}

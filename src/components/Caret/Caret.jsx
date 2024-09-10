@@ -1,16 +1,9 @@
-import classNames from 'classnames'
-import styles from './Caret.module.css'
-
 const Caret = (props) => {
-  const { caretPosition, isHidden } = props
-  const caretClassName = classNames({
-    [styles.caret]: true,
-    [styles.hidden]: isHidden
-  })
+  const { caretPosition, isHidden, className } = props
 
   return (
     <div
-      className={caretClassName}
+      className={className}
       style={{
         left: caretPosition.left + 'px',
         top: caretPosition.top + 'px',

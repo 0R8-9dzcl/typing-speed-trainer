@@ -1,5 +1,4 @@
 import { useEffect } from 'react'
-import './Input.css'
 
 const Input = (props) => {
   const {

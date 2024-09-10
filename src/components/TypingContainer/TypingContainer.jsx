@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
-import './TypingContainer.css'
+import styles from './TypingContainer.module.css'
 import Word from '../Word/Word'
 import Input from '../Input/Input'
 import useTyping from '../../hooks/useTyping'
@@ -8,6 +8,7 @@ import calculateWpm from '../../utils/calculateWpm'
 import classNames from 'classnames'
 import useCaret from '../../hooks/useCaret'
 import Caret from '../Caret/Caret'
+import Words from '../Words/Words'
 
 const TypingContainer = ({ correctString }) => {
   const timerDuration = 30
@@ -32,18 +33,29 @@ const TypingContainer = ({ correctString }) => {
   const typingWordsArray = typingSring.split(' ')
   const correctWordsArray = correctString.split(' ')
   const isNotShowFocus = !isInputFocused && !isCompleted
+
   const showButtonClass = classNames({
-    focus: true,
-    hidden: isCompleted || !isNotShowFocus,
+    [styles.focus]: true,
+    [styles.hidden]: isCompleted || !isNotShowFocus,
   })
   const wordsClass = classNames({
-    words: true,
-    blured: isNotShowFocus,
-    hidden: isCompleted,
+    [styles.words]: true,
+    [styles.blured]: isNotShowFocus,
+    [styles.hidden]: isCompleted,
   })
   const resultClass = classNames({
-    result: true,
-    hidden: !isCompleted,
+    [styles.result]: true,
+    [styles.hidden]: !isCompleted,
+  })
+
+  const resetButtonClass = classNames({
+    [styles.button]: true,
+    [styles.hidden]: isCompleted,
+  })
+
+  const caretClassName = classNames({
+    [styles.caret]: true,
+    [styles.hidden]: !isInputFocused
   })
 
   const wordsRef = useRef(null)
@@ -85,10 +97,12 @@ const TypingContainer = ({ correctString }) => {
   useEffect(() => {
     const isEmptyCorrectString = correctString.length < 1
 
-    const isTypingLastWord = correctWordsArray.length === typingWordsArray.length
+    const isTypingLastWord =
+      correctWordsArray.length === typingWordsArray.length
     const lastCorrecttWordsLength = correctWordsArray.at(-1).length
     const lastTypingWordsLength = typingWordsArray.at(-1).length
-    const isLastWordsLengthEqual = lastCorrecttWordsLength === lastTypingWordsLength
+    const isLastWordsLengthEqual =
+      lastCorrecttWordsLength === lastTypingWordsLength
 
     if (!isEmptyCorrectString && isTypingLastWord && isLastWordsLengthEqual) {
       completeTrainer()
@@ -103,28 +117,27 @@ const TypingContainer = ({ correctString }) => {
   ])
 
   return (
-    <div className="typingContainer">
-      {!isCompleted && (
-        <button type="button" onClick={resetTrainer}>
-          Reset
-        </button>
-      )}
-      <p className="timer">Time remaining: {timeLeft} seconds</p>
-      <div className="wrap">
+    <div className={styles.typingContainer}>
+      <button className={resetButtonClass} type="button" onClick={resetTrainer}>
+        Reset
+      </button>
+      <p>Time remaining: {timeLeft} seconds</p>
+      <div className={styles.wrap}>
         <Input
           inputRef={inputRef}
-          className="input"
+          className={styles.input}
           onChange={handleChangeInput}
           disabled={isCompleted}
           onBlur={handleBlur}
           onFocus={handleFocus}
         />
-        <div ref={wordsRef} className={wordsClass}>
-          <Caret caretPosition={caretPosition} isHidden={!isInputFocused} />
+        <Words wordsRef={wordsRef} className={wordsClass}>
+          <Caret caretPosition={caretPosition} className={caretClassName} />
           {correctWordsArray.map((correctWord, index) => {
             const currentTypingWord = typingWordsArray[index] || ''
             return (
               <Word
+                className={styles.word}
                 correctWord={correctWord}
                 typingWord={currentTypingWord}
                 isTypingWordIxist={Boolean(currentTypingWord)}
@@ -135,7 +148,7 @@ const TypingContainer = ({ correctString }) => {
               />
             )
           })}
-        </div>
+        </Words>
         <button type="button" className={showButtonClass} onClick={focusInput}>
           Click for focus
         </button>
