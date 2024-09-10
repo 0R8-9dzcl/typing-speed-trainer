@@ -1,5 +1,5 @@
 const Caret = (props) => {
-  const { caretPosition, isHidden, className } = props
+  const { caretPosition, className } = props
 
   return (
     <div
