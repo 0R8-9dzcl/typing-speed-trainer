@@ -9,6 +9,7 @@ import classNames from 'classnames'
 import useCaret from '../../hooks/useCaret'
 import Caret from '../Caret/Caret'
 import Words from '../Words/Words'
+import useTypingErrors from '../../hooks/useTypingErrors'
 
 const TypingContainer = ({ correctString }) => {
   const timerDuration = 30
@@ -79,8 +80,11 @@ const TypingContainer = ({ correctString }) => {
     focusInput()
   }
 
+  const { errors, countErrors } = useTypingErrors(correctString, typingString)
+
   const completeTrainer = useCallback(() => {
     stopTimer()
+    countErrors()
     setWpm(
       calculateWpm({
         inputValue: typingString,
@@ -88,7 +92,7 @@ const TypingContainer = ({ correctString }) => {
       }),
     )
     completeTyping()
-  }, [completeTyping, stopTimer, timeLeft, typingString])
+  }, [completeTyping, countErrors, stopTimer, timeLeft, typingString])
 
   useEffect(() => {
     if (timeLeft === 0) {
@@ -165,6 +169,10 @@ const TypingContainer = ({ correctString }) => {
         </button>
         <div className={resultClass}>
           <p>WPM: {wpm}</p>
+          <p>Correct: {errors.correct}</p>
+          <p>Incorrect: {errors.incorrect}</p>
+          <p>Extra: {errors.extra}</p>
+          <p>Missed: {errors.missed}</p>
           <button type="button" onClick={resetTrainer}>
             Reset
           </button>
