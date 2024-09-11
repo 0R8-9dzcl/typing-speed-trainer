@@ -2,21 +2,29 @@ import { useState, useEffect, useCallback } from 'react'
 
 const defaultCaretPosition = { left: 1, top: 0 }
 
-const useCaret = (wordsRef, words) => {
+const useCaret = (wordsRef, words, letterStyles) => {
   const [caretPosition, setCaretPosition] = useState(defaultCaretPosition)
 
-  const findLastTypedLetter = (wordsArray) => {
-    for (let i = wordsArray.length - 1; i >= 0; i--) {
-      const letters = Array.from(wordsArray[i].children)
-      for (let j = letters.length - 1; j >= 0; j--) {
-        const letter = letters[j]
-        if (letter.classList.contains('valid') || letter.classList.contains('invalid')) {
-          return letter
+  const findLastTypedLetter = useCallback(
+    (wordsArray) => {
+      for (let i = wordsArray.length - 1; i >= 0; i--) {
+        const letters = Array.from(wordsArray[i].children)
+        for (let j = letters.length - 1; j >= 0; j--) {
+          const letter = letters[j]
+          const isLetterValid = letter.classList.contains(letterStyles.valid)
+          const isLetterInvalid = letter.classList.contains(
+            letterStyles.invalid,
+          )
+          const isWordExist = isLetterInvalid || isLetterValid
+          if (isWordExist) {
+            return letter
+          }
         }
       }
-    }
-    return null
-  }
+      return null
+    },
+    [letterStyles.invalid, letterStyles.valid],
+  )
 
   const getElementPosition = (element) => {
     const { top, left, right } = element.getBoundingClientRect()
@@ -41,8 +49,8 @@ const useCaret = (wordsRef, words) => {
   )
 
   const moveCaretAfterLastTypedLetter = useCallback(
-    (lastValidLetter) => {
-      const letterPosition = getElementPosition(lastValidLetter)
+    (lastTypedLetter) => {
+      const letterPosition = getElementPosition(lastTypedLetter)
       const wordsPosition = getElementPosition(wordsRef.current)
 
       setCaretPosition({
@@ -74,7 +82,13 @@ const useCaret = (wordsRef, words) => {
     } else {
       moveCaretAfterLastTypedLetter(lastTypedLetter)
     }
-  }, [moveCaretAfterLastTypedLetter, moveCaretToNextWord, words, wordsRef])
+  }, [
+    findLastTypedLetter,
+    moveCaretAfterLastTypedLetter,
+    moveCaretToNextWord,
+    words,
+    wordsRef,
+  ])
 
   return { caretPosition, resetPosition }
 }
