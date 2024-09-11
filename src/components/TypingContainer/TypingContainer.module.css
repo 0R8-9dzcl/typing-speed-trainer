@@ -66,6 +66,20 @@
   opacity: 1;
 }
 
+.letter {
+  color: black;
+  min-width: 5px;
+  margin: 0;
+}
+
+.valid {
+  color: greenyellow;
+}
+
+.invalid {
+  color: red;
+}
+
 .hidden {
   opacity: 0;
   visibility: hidden;

@@ -1,14 +1,21 @@
 import Letter from '../Letter/Letter'
 
 const Word = (props) => {
-  const { typingWord, correctWord, isTypingWordIxist, isTypingWordLonger, className } =
-    props
+  const {
+    typingWord,
+    correctWord,
+    isTypingWordIxist,
+    isTypingWordLonger,
+    className,
+    letterStyles,
+  } = props
   const correctLetterArray = correctWord.split('')
   const correctWordLength = correctWord.length
   return (
     <div className={className}>
       {correctLetterArray.map((correctLetter, index) => (
         <Letter
+          letterStyles={letterStyles}
           correctLetter={correctLetter}
           typingLetter={typingWord[index]}
           isTypingWordIxist={isTypingWordIxist}
@@ -19,6 +26,7 @@ const Word = (props) => {
       ))}
       {isTypingWordLonger && (
         <Letter
+          letterStyles={letterStyles}
           correctLetter={''}
           typingLetter={typingWord.slice(correctWordLength)}
           isTypingWordIxist={isTypingWordIxist}

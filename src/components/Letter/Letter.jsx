@@ -1,4 +1,3 @@
-import styles from './Letter.module.css'
 import classNames from 'classnames'
 
 const Letter = (props) => {
@@ -8,18 +7,18 @@ const Letter = (props) => {
     isCorrectLetter,
     isTypingWordIxist,
     isTypingLetterIxist,
+    letterStyles,
   } = props
 
   const letterClass = classNames({
-    [styles.letter]: true,
-    [styles.valid]: isTypingWordIxist && isCorrectLetter,
-    [styles.invalid]: isTypingWordIxist && isTypingLetterIxist && !isCorrectLetter,
+    [letterStyles.letter]: true,
+    [letterStyles.valid]: isTypingWordIxist && isCorrectLetter,
+    [letterStyles.invalid]:
+      isTypingWordIxist && isTypingLetterIxist && !isCorrectLetter,
   })
 
-  const displayedLetter = !isCorrectLetter
-    && isTypingLetterIxist
-      ? typingLetter
-      : correctLetter
+  const displayedLetter =
+    !isCorrectLetter && isTypingLetterIxist ? typingLetter : correctLetter
 
   return <p className={letterClass}>{displayedLetter}</p>
 }

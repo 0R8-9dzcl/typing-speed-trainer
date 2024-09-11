@@ -19,7 +19,7 @@ const TypingContainer = ({ correctString }) => {
 
   const {
     inputRef,
-    inputValue: typingSring,
+    inputValue: typingString,
     handleChange: onType,
     focusInput,
     isInputFocused,
@@ -30,7 +30,7 @@ const TypingContainer = ({ correctString }) => {
     handleFocus,
   } = useTyping()
 
-  const typingWordsArray = typingSring.split(' ')
+  const typingWordsArray = typingString.split(' ')
   const correctWordsArray = correctString.split(' ')
   const isNotShowFocus = !isInputFocused && !isCompleted
 
@@ -55,11 +55,21 @@ const TypingContainer = ({ correctString }) => {
 
   const caretClassName = classNames({
     [styles.caret]: true,
-    [styles.hidden]: !isInputFocused
+    [styles.hidden]: !isInputFocused,
   })
 
+  const letterStyles = {
+    letter: styles.letter,
+    valid: styles.valid,
+    invalid: styles.invalid,
+  }
+
   const wordsRef = useRef(null)
-  const { caretPosition, resetPosition } = useCaret(wordsRef, typingSring)
+  const { caretPosition, resetPosition } = useCaret(
+    wordsRef,
+    typingString,
+    letterStyles,
+  )
 
   const resetTrainer = () => {
     clearInput()
@@ -73,12 +83,12 @@ const TypingContainer = ({ correctString }) => {
     stopTimer()
     setWpm(
       calculateWpm({
-        inputValue: typingSring,
+        inputValue: typingString,
         elapsedTime: timerDuration - timeLeft,
       }),
     )
     completeTyping()
-  }, [completeTyping, stopTimer, timeLeft, typingSring])
+  }, [completeTyping, stopTimer, timeLeft, typingString])
 
   useEffect(() => {
     if (timeLeft === 0) {
@@ -111,7 +121,7 @@ const TypingContainer = ({ correctString }) => {
     completeTrainer,
     correctString,
     correctWordsArray,
-    typingSring,
+    typingString,
     typingWordsArray,
     typingWordsArray.length,
   ])
@@ -138,6 +148,7 @@ const TypingContainer = ({ correctString }) => {
             return (
               <Word
                 className={styles.word}
+                letterStyles={letterStyles}
                 correctWord={correctWord}
                 typingWord={currentTypingWord}
                 isTypingWordIxist={Boolean(currentTypingWord)}
